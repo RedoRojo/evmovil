@@ -21,4 +21,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "evmovil"
 include(":app")
- 
+include(":data")
+include(":domain")
+include(":framework")
+include(":usecases")
