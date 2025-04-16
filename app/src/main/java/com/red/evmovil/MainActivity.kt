@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.red.evmovil.ui.theme.EvmovilTheme
 import com.red.evmovil.searchBook.BookListUI
 import dagger.hilt.android.AndroidEntryPoint
+import com.red.evmovil.navigation.AppNavigation
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            BookListUI()
+            AppNavigation()
         }
 
     }

@@ -18,7 +18,7 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import com.red.evmovil.R
 
 @Composable
-fun BookListUI() {
+fun BookListUI(onBack: () -> Unit) {
 
     val viewModel: BookListViewModel = viewModel()
 
@@ -27,6 +27,13 @@ fun BookListUI() {
     val likedBooks = remember { mutableStateListOf<Book>() }
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        Button(
+            onClick = onBack,
+            modifier = Modifier.padding(bottom = 16.dp)
+        ) {
+            Text("← Atras")
+        }
+
         OutlinedTextField(
             value = searchQuery,
             onValueChange = { searchQuery = it },

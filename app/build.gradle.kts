@@ -61,6 +61,9 @@ dependencies {
     implementation(libs.androidx.runtime.livedata)
     debugImplementation(libs.leakcanary.android)
 
+    implementation(libs.navigation)
+    implementation(libs.hilt.navigation)
+
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.coil)
     implementation(libs.hilt)
