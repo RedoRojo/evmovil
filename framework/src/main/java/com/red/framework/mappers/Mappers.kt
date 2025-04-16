@@ -7,9 +7,9 @@ import kotlin.math.atanh
 
 fun BookDto.toModel(): Book {
     return Book(
-        authors = authors,
-        title = title,
-        publicationYear = year
+        authors = authors?: listOf("Anonimo"),
+        title = title?: "Sin titulo",
+        publicationYear = year?.toString() ?: "Anio desconocido"
     )
 }
 
