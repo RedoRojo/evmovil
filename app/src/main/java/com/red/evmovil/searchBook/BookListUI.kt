@@ -8,6 +8,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material.icons.filled.Favorite
+import com.red.domain.Book
+import androidx.compose.material.icons.filled.FavoriteBorder
 import com.red.evmovil.R
 
 @Composable
@@ -17,6 +24,7 @@ fun BookListUI() {
 
     var searchQuery by remember { mutableStateOf("") }
     val bookListState by viewModel.flow.collectAsState()
+    val likedBooks = remember { mutableStateListOf<Book>() }
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         OutlinedTextField(
@@ -56,17 +64,37 @@ fun BookListUI() {
                         Card(
                             modifier = Modifier.fillMaxSize()
                         ) {
-                            Column(
-                                modifier = Modifier.padding(12.dp)
+                            Row(
+                                modifier = Modifier.fillMaxSize().fillMaxWidth().padding(12.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween
+
                             ) {
-                                Text(
-                                    "📚 ${book.title} (${book.publicationYear})",
-                                    style = MaterialTheme.typography.titleMedium
-                                )
-                                Text(
-                                    "Autor/es: ${book.authors.joinToString()}",
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
+                                Column(
+                                    modifier = Modifier.weight(1f)
+                                ) {
+                                    Text(
+                                        "📚 ${book.title} (${book.publicationYear})",
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
+                                    Text(
+                                        "Autor/es: ${book.authors.joinToString()}",
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
+                                }
+                                val isLiked = likedBooks.contains(book)
+                                IconButton(
+                                    onClick = {
+                                        if (isLiked) {
+                                            likedBooks.remove(book)
+                                        } else {
+                                            viewModel.likeBook(book)
+                                        }
+                                    }) {
+                                    Icon(
+                                        imageVector = if (isLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                                        contentDescription = if (isLiked) "No te gusta" else "Te gusta"
+                                    )
+                                }
                             }
                         }
                     }

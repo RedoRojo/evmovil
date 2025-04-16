@@ -2,9 +2,12 @@ package com.red.evmovil.di
 
 import android.content.Context
 import com.red.data.BookRepository
+import com.red.data.book.IBookLocalDataSource
 import com.red.data.book.IBookRemoteDataSource
 import com.red.framework.service.RetrofitBuilder
 import com.red.framework.book.BookRemoteDataSource
+import com.red.framework.book.BookLocalDataSource
+import com.red.usecases.LikeBook
 import com.red.usecases.SearchBook
 import dagger.Module
 import dagger.Provides
@@ -30,14 +33,26 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideBookRepository(remoteDataSource: IBookRemoteDataSource): BookRepository {
-        return BookRepository(remoteDataSource)
+    fun provideBookLocalDataSource(@ApplicationContext context: Context): IBookLocalDataSource {
+        return BookLocalDataSource(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideBookRepository(remoteDataSource: IBookRemoteDataSource, localDataSource: IBookLocalDataSource): BookRepository {
+        return BookRepository(remoteDataSource, localDataSource)
     }
 
     @Provides
     @Singleton
     fun provideSearchBook(repository: BookRepository): SearchBook {
         return SearchBook(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLikeBook(repository: BookRepository): LikeBook {
+        return LikeBook(repository)
     }
 
 }

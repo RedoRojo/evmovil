@@ -3,6 +3,7 @@ package com.red.evmovil.searchBook;
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.red.domain.Book
+import com.red.usecases.LikeBook
 import com.red.usecases.SearchBook
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BookListViewModel @Inject constructor(
-    private val searchBook: SearchBook
+    private val searchBook: SearchBook,
+    private val likeBook: LikeBook
 ) : ViewModel() {
 
     sealed class BookState {
@@ -30,6 +32,11 @@ class BookListViewModel @Inject constructor(
             val result = searchBook.invoke(title)
             _flow.value = BookState.Success(result)
         }
+    }
 
+    fun likeBook(book: Book) {
+        viewModelScope.launch {
+            likeBook.invoke(book)
+        }
     }
 }
