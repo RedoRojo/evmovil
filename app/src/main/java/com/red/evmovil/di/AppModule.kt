@@ -1,11 +1,10 @@
 package com.red.evmovil.di
 
 import android.content.Context
-//import com.ucb.data.BookRepository
-//import com.ucb.data.book.IBookRemoteDataSource
-//import com.ucb.framework.book.BookRemoteDataSource
-//import com.ucb.framework.service.IApiService
-//import com.ucb.framework.service.RetrofitClient
+import com.red.data.BookRepository
+import com.red.data.book.IBookRemoteDataSource
+import com.red.framework.service.RetrofitBuilder
+import com.red.framework.book.BookRemoteDataSource
 import com.red.usecases.SearchBook
 import dagger.Module
 import dagger.Provides
@@ -19,26 +18,26 @@ import javax.inject.Singleton
 object AppModule {
 
 
-//    @Provides
-//    @Singleton
-//    fun provideRetrofitClient(): RetrofitClient = RetrofitClient
-//
-//    @Provides
-//    @Singleton
-//    fun provideBookRemoteDataSource(retrofitClient: RetrofitClient): IBookRemoteDataSource {
-//        return BookRemoteDataSource(retrofitClient)
-//    }
-//
-//    @Provides
-//    @Singleton
-//    fun provideBookRepository(remoteDataSource: IBookRemoteDataSource): BookRepository {
-//        return BookRepository(remoteDataSource)
-//    }
-//
     @Provides
     @Singleton
-    fun provideSearchBook(): SearchBook {
-        return SearchBook()
+    fun provideRetrofitBuilder(): RetrofitBuilder = RetrofitBuilder
+
+    @Provides
+    @Singleton
+    fun provideBookRemoteDataSource(retrofitBuilder: RetrofitBuilder): IBookRemoteDataSource {
+        return BookRemoteDataSource(retrofitBuilder)
+    }
+
+    @Provides
+    @Singleton
+    fun provideBookRepository(remoteDataSource: IBookRemoteDataSource): BookRepository {
+        return BookRepository(remoteDataSource)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSearchBook(repository: BookRepository): SearchBook {
+        return SearchBook(repository)
     }
 
 }

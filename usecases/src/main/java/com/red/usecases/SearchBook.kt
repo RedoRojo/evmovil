@@ -1,13 +1,13 @@
 package com.red.usecases
 import com.red.domain.Book
+import com.red.data.BookRepository
+import kotlinx.coroutines.delay
 
-class SearchBook {
-    fun invoke(query: String): List<Book> {
-        return listOf(
-            Book(
-                authors = listOf("Erich Gamma", "Richard Helm", "Ralph Johnson", "John Vlissides"),
-                title = "Design Patterns",
-                publicationYear = 1994
-            ))
+class SearchBook (
+    val bookRepository: BookRepository
+){
+    suspend fun invoke(title: String): List<Book> {
+        delay(200)
+        return bookRepository.searchByTitle(title)
     }
 }

@@ -16,7 +16,7 @@ fun BookListUI() {
     val viewModel: BookListViewModel = viewModel()
 
     var searchQuery by remember { mutableStateOf("") }
-    val bookList by viewModel.listState.collectAsState()
+    val bookListState by viewModel.flow.collectAsState()
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         OutlinedTextField(
@@ -39,28 +39,41 @@ fun BookListUI() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.fillMaxSize()
-        ) {
-            items(bookList) { book ->
-                Card(
+        when(val state = bookListState) {
+            is BookListViewModel.BookState.Init -> {
+                Text(text = "Ingresa un titulo")
+            }
+
+            is BookListViewModel.BookState.Loading -> {
+                CircularProgressIndicator()
+            }
+            is BookListViewModel.BookState.Success -> {
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    Column(
-                        modifier = Modifier.padding(12.dp)
-                    ) {
-                        Text(
-                            "📚 ${book.title} (${book.publicationYear})",
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                        Text(
-                            "Autor/es: ${book.authors.joinToString()}",
-                            style = MaterialTheme.typography.bodyMedium
-                        )
+                    items(state.books) { book ->
+                        Card(
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(12.dp)
+                            ) {
+                                Text(
+                                    "📚 ${book.title} (${book.publicationYear})",
+                                    style = MaterialTheme.typography.titleMedium
+                                )
+                                Text(
+                                    "Autor/es: ${book.authors.joinToString()}",
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                            }
+                        }
                     }
                 }
             }
         }
+
+
     }
 }
