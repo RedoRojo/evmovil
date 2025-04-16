@@ -16,4 +16,8 @@ class BookRepository (
         bookLocalDataSource.saveBook(book)
         return true;
     }
+
+    suspend fun getLikedBooks(): List<Book> {
+        return bookLocalDataSource.getLikedBooks()
+    }
 }

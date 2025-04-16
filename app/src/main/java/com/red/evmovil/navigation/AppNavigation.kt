@@ -29,7 +29,7 @@ fun AppNavigation() {
             )
         }
 
-        composable(Screens.Favorites.route) {
+        composable(Screens.Liked.route) {
             LikedBooksUI(
                 onBack = { navController.popBackStack() }
             )

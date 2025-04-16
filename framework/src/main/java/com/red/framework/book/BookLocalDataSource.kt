@@ -3,6 +3,7 @@ import android.content.Context
 import com.red.data.book.IBookLocalDataSource
 import com.red.domain.Book
 import com.red.framework.mappers.toEntity
+import com.red.framework.mappers.toDomain
 import com.red.framework.persistence.AppRoomDatabase
 
 class BookLocalDataSource (val context: Context) : IBookLocalDataSource {
@@ -10,5 +11,9 @@ class BookLocalDataSource (val context: Context) : IBookLocalDataSource {
     override suspend fun saveBook(book: Book): Boolean {
         bookDao.saveBook(book.toEntity())
         return true
+    }
+    override suspend fun getLikedBooks(): List<Book> {
+        return bookDao.getLikedBooks().map {it.toDomain()}
+
     }
 }

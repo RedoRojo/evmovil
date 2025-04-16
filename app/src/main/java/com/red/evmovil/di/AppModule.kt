@@ -7,6 +7,7 @@ import com.red.data.book.IBookRemoteDataSource
 import com.red.framework.service.RetrofitBuilder
 import com.red.framework.book.BookRemoteDataSource
 import com.red.framework.book.BookLocalDataSource
+import com.red.usecases.GetLikedBooks
 import com.red.usecases.LikeBook
 import com.red.usecases.SearchBook
 import dagger.Module
@@ -54,5 +55,12 @@ object AppModule {
     fun provideLikeBook(repository: BookRepository): LikeBook {
         return LikeBook(repository)
     }
+
+    @Provides
+    @Singleton
+    fun provideGetLikedBooks(repository: BookRepository): GetLikedBooks {
+        return GetLikedBooks(repository)
+    }
+
 
 }
