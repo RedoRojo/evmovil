@@ -14,13 +14,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material.icons.filled.Favorite
 import com.red.domain.Book
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.material.icons.filled.FavoriteBorder
 import com.red.evmovil.R
 
 @Composable
 fun BookListUI(onBack: () -> Unit) {
 
-    val viewModel: BookListViewModel = viewModel()
+    val viewModel: BookListViewModel = hiltViewModel()
 
     var searchQuery by remember { mutableStateOf("") }
     val bookListState by viewModel.flow.collectAsState()
@@ -97,6 +98,7 @@ fun BookListUI(onBack: () -> Unit) {
                                             viewModel.likeBook(book)
                                         }
                                     }) {
+
                                     Icon(
                                         imageVector = if (isLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                                         contentDescription = if (isLiked) "No te gusta" else "Te gusta"

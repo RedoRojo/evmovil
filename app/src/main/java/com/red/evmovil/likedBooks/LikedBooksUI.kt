@@ -14,7 +14,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun LikedBooksUI(onBack: () -> Unit) {
-    val viewModel: LikedBooksViewModel = viewModel()
+    val viewModel: LikedBooksViewModel = hiltViewModel()
     val likedBooks by viewModel.likedBooks.collectAsState()
 
     LaunchedEffect(Unit) {
